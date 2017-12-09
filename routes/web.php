@@ -28,6 +28,7 @@ Route::group(["prefix" => "categories"],function(){
 	Route::delete("/{id}/delete","CategorieController@destroy")->name("categories.destroy");
 });
 
+
 Route::group(["prefix" => "products"],function(){
 	Route::get("/","ProductController@index")->name("products.index");
 	Route::get("/{id}","ProductController@edit")->name("products.edit");
@@ -47,6 +48,7 @@ Route::group(["prefix" => "purchases"],function(){
 	Route::delete("/{id}/delete","PurchaseController@destroy")->name("purchases.destroy");
 });
 
+
 Route::group(["prefix" => "sales"],function(){
 	Route::get("/","SaleController@index")->name("sales.index");
 	Route::get("/{id}","SaleController@edit")->name("sales.edit");
@@ -57,4 +59,11 @@ Route::group(["prefix" => "sales"],function(){
 });
 
 
+Route::group(["prefix" => "json"],function(){
+	Route::post("/categorie","JsonController@categorie")->name("json.categorie");
+	Route::post("/product","JsonController@product")->name("json.product");
+	Route::post("/sale","JsonController@sale")->name("json.sale");
+	Route::post("/purchase","JsonController@product")->name("json.purchase");
+	Route::post("/categorie/table","JsonController@table_categorie")->name("json.purchase");
+});
 
