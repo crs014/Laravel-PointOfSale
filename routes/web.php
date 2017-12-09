@@ -60,10 +60,11 @@ Route::group(["prefix" => "sales"],function(){
 
 
 Route::group(["prefix" => "json"],function(){
-	Route::post("/categorie","JsonController@categorie")->name("json.categorie");
-	Route::post("/product","JsonController@product")->name("json.product");
-	Route::post("/sale","JsonController@sale")->name("json.sale");
-	Route::post("/purchase","JsonController@product")->name("json.purchase");
-	Route::post("/categorie/table","JsonController@table_categorie")->name("json.purchase");
+	Route::get("/categorie","JsonController@categorie")->name("json.categorie");
+	Route::get("/product","JsonController@product")->name("json.product");
+	Route::get("/sale","JsonController@sale")->name("json.sale");
+	Route::get("/purchase","JsonController@product")->name("json.purchase");
+	Route::get("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
+	Route::get("/product/table","JsonController@table_product")->name("json.product_table");
 });
 

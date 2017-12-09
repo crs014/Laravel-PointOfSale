@@ -15,7 +15,7 @@ class JsonController extends Controller
     public function categorie()
     {
     	$categories = Categorie::all();
-    	return response()->json($categorie);
+    	return response()->json($categories);
     }
 
     public function product()
