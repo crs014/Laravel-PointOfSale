@@ -15,4 +15,9 @@ class Sale extends Model
     {
     	return $this->hasMany("App\Models\SaleDetail");
     }
+
+    public function sale_payments()
+    {
+    	return $this->hasMany("App\Models\SalePayment");
+    }
 }

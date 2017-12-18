@@ -14,7 +14,7 @@ class JsonController extends Controller
 
     public function categorie()
     {
-    	$categories = Categorie::all();
+    	$categories = Categorie::where('delete_data',false)->all();
     	return response()->json($categories);
     }
 
@@ -38,7 +38,7 @@ class JsonController extends Controller
 
     public function table_categorie()
     {
-    	return datatables(Categorie::all())->toJson();
+    	return datatables(Categorie::where('delete_data',false)->get())->toJson();
     }
 
 	public function table_product()

@@ -16,15 +16,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get("/", function () {
-    return view("welcome");
+    return view("page.home.welcome");
 });
 
 Route::group(["prefix" => "categories"],function(){
 	Route::get("/","CategorieController@index")->name("categories.index");
-	Route::get("/{id}","CategorieController@edit")->name("categories.edit");
+	Route::get("/{id}/edit","CategorieController@edit")->name("categories.edit");
 	Route::get("/{id}/delete","CategorieController@delete")->name("categories.delete");
 	Route::post("/","CategorieController@store")->name("categories.store");
-	Route::put("/{id}","CategorieController@update")->name("categories.update");
+	Route::put("/{id}/edit","CategorieController@update")->name("categories.update");
 	Route::delete("/{id}/delete","CategorieController@destroy")->name("categories.destroy");
 });
 
