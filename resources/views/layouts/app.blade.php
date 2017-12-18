@@ -11,13 +11,12 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/datatables.min.css')}}" >    
-    <link rel="stylesheet" href="{{ asset('bower_components/font-awesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bower_components/Ionicons/css/ionicons.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/css/AdminLTE.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/css/skins/_all-skins.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/bower_components/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/bower_components/Ionicons/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/dist/css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/dist/css/skins/_all-skins.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/DataTables/media/css/dataTables.bootstrap.min.css') }}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -133,8 +132,8 @@
                         &nbsp;
                     @else
                         <li class="header">MAIN NAVIGATION</li>
-                        <li><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                        <li><a href="#"><i class="fa fa-cubes"></i> <span>Kategori</span></a></li>
+                        <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                        <li><a href="{{ route('categories.index') }}"><i class="fa fa-cubes"></i> <span>Kategori</span></a></li>
                         <li><a href="#"><i class="fa fa-cube"></i> <span>Produk</span></a></li>
                         <li><a href="#"><i class="fa fa-upload"></i> <span>Pembelian</span></a></li>
                         <li><a href="#"><i class="fa fa-download"></i> <span>Penjualan</span></a></li>
@@ -149,15 +148,13 @@
         </div>
     </div>
     <!-- close navbar-->
-    <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-    <script src="{{ asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
-    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
-    <script src="{{ asset('js/datatables.min.js')}}"></script>
-    <script src="{{ asset('js/validator.min.js')}}"></script>
+    <script src="{{ asset('public/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('public/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('public/DataTables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/DataTables/media/js/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public/js/validator.min.js')}}"></script>
     @yield('script')
 </body>
 </html>

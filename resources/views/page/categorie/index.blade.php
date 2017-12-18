@@ -9,7 +9,7 @@
     <section class="content"><!-- /.row -->
         <div class="box box-primary">
             <div class="box-header">
-                <a class="btn btn-success" onclick="addCategorie()"><i class="fa fa-plus-circle"></i> Tambah kategori</a>
+                <a class="btn btn-success" onclick="addCategorie()"><i class="fa fa-plus-circle"></i> Tambah</a>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-responsive table-striped" id="table-categorie" width="100%">
