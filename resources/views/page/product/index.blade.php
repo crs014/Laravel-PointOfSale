@@ -3,19 +3,21 @@
 @section('content')
  <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Kategori</h1>
+        <h1>Produk</h1>
     </section>
     <!-- Main content -->
     <section class="content"><!-- /.row -->
         <div class="box box-primary">
             <div class="box-header">
-                <a class="btn btn-success" onclick="addCategorie()"><i class="fa fa-plus-circle"></i> Tambah</a>
+                <a class="btn btn-success" onclick="addProduct()"><i class="fa fa-plus-circle"></i> Tambah</a>
             </div>
             <div class="box-body">
-                <table class="table table-bordered table-responsive table-striped" id="table-categorie" width="100%">
+                <table class="table table-bordered table-responsive table-striped" id="table-product" width="100%">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Kode Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga Jual</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -26,25 +28,31 @@
             </div> 
         </div>    
     </section>
-    @include('page.categorie.form')
+    @include('page.product.form')
 @endsection
 @section('script')
 <script type="text/javascript">
 var table, saveMethod;
-$(document).ready(function(){
-    table = $('#table-categorie').DataTable({
+$(function(){
+    table = $('#table-product').DataTable({
                 processing: true,
                 serverSide: true,
                 paging : true,
                 ajax: {
-                    url : "{{ route('json.categorie_table') }}",
+                    url : "{{ route('json.product_table') }}",
                     dataType : "JSON",
                     type : "POST",
                     data : { _token: "{{csrf_token()}}"}
                 },
                 columns : [
                     {
-                        data : "name"
+                        data : "code_product"
+                    },
+                    {
+                        data : "categorie"
+                    },
+                    {
+                        data : "sale_price"
                     },
                     {
                         data : 'id',
@@ -61,12 +69,12 @@ $(document).ready(function(){
 });
 
 
-function addCategorie(){
+function addProduct(){
     saveMethod = "add";
     $('input[name=_method]').val('POST');
     $('#modal-form').modal('show');
     $('#modal-form form')[0].reset();
-    $('.modal-title').text('Tambah Kategori');
+    $('.modal-title').text('Tambah Produk');
 }
 
 function editForm(id) {
@@ -74,14 +82,16 @@ function editForm(id) {
     $('input[name=_method]').val('PUT');
     $('#modal-form form')[0].reset();
     $.ajax({
-        url : "/categories/" + id + "/edit",  
+        url : "/products/" + id + "/edit",  
         type : "GET",
         dataType : "JSON",
         success : function(data) {
             $('#modal-form').modal('show');
-            $('.modal-title').text('Edit Kategori');
+            $('.modal-title').text('Edit Produk');
             $('#id').val(data.id);
-            $('#name').val(data.name);
+            $('#code').val(data.code_product);
+            $('#price').val(data.sale_price);
+            $('#categorie').val(data.categorie_id);
         },
         error : function() {
             alert("Tidak Dapat Menampilkan Data");
@@ -92,7 +102,7 @@ function editForm(id) {
 function deleteData(id) {
     if(confirm("Apakah yakin data akan dihapus?")) {
         $.ajax({
-            url : "/categories/" + id + "/delete",
+            url : "/products/" + id + "/delete",
             type : "POST",
             data : { '_method' : 'DELETE', '_token' : $('input[name=_token]').val() },
             success : function(data) {
@@ -110,10 +120,10 @@ $(function(){
         if(!e.isDefaultPrevented()) {
             var id = $('#id').val();
             if(saveMethod == "add"){
-                url = "{{ route('categories.store') }}";    
+                url = "{{ route('products.store') }}";    
             }
             else {
-                url = "/categories/" + id + "/edit";
+                url = "/products/" + id + "/edit";
             }
             $.ajax({
                 url : url,

@@ -3,82 +3,74 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Categorie;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+    	$categories = Categorie::where("delete_data",false)->get();
+        return view('page.product.index',compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        try 
+        {
+    		$product = new Product();
+    		$product->categorie_id = $request->categorie;
+    		$product->code_product = $request->code;
+    		$product->sale_price = $request->price;
+    		$product->delete_data = false;
+    		$product->save();
+        } 
+        catch (\Exception $e) 
+        {
+        	return redirect()->route('products.index');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+    	try 
+    	{
+    		$product = Product::findOrFail($id);
+    		return response()->json($product);
+    	} 
+    	catch (\Exception $e) 
+    	{
+    		return redirect()->route('products.index');	
+    	}
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        try 
+        {
+            $product = Product::findOrFail($id);
+            $product->categorie_id = $request->categorie;
+    		$product->code_product = $request->code;
+    		$product->sale_price = $request->price;
+            $product->save();      
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route('products.index');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        try 
+        {     	
+            $product = Product::findOrFail($id);
+            $product->delete_data = true;
+            $product->save();      
+        } 
+        catch (\Exception $e) 
+        {
+        	return redirect()->route('products.index');	
+        }
     }
 }

@@ -32,10 +32,10 @@ Route::group(['middleware'=>'auth'],function(){
 
 	Route::group(["prefix" => "products"],function(){
 		Route::get("/","ProductController@index")->name("products.index");
-		Route::get("/{id}","ProductController@edit")->name("products.edit");
+		Route::get("/{id}/edit","ProductController@edit")->name("products.edit");
 		Route::get("/{id}/delete","ProductController@delete")->name("products.delete");
 		Route::post("/","ProductController@store")->name("products.store");
-		Route::put("/{id}","ProductController@update")->name("products.update");
+		Route::put("/{id}/edit","ProductController@update")->name("products.update");
 		Route::delete("/{id}/delete","ProductController@destroy")->name("products.destroy");
 	});
 
@@ -65,7 +65,7 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get("/product","JsonController@product")->name("json.product");
 		Route::get("/sale","JsonController@sale")->name("json.sale");
 		Route::get("/purchase","JsonController@product")->name("json.purchase");
-		Route::get("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
-		Route::get("/product/table","JsonController@table_product")->name("json.product_table");
+		Route::post("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
+		Route::post("/product/table","JsonController@table_product")->name("json.product_table");
 	});
 });

@@ -43,6 +43,14 @@ class JsonController extends Controller
 
 	public function table_product()
     {
-    	return datatables(Product::all())->toJson();
+        $products = Product::join("categories","categories.id","=","products.categorie_id")
+                    ->select(
+                        'products.id as id',
+                        'products.code_product as code_product',
+                        'categories.name as categorie',
+                        'products.sale_price as sale_price',
+                        'products.categorie_id as categorie_id'
+                    )->where('products.delete_data',false)->get();
+        return datatables($products)->toJson();
     }
 }

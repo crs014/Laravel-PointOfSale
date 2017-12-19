@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('categorie_id')->unsigned();
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('code_product');
-            $table->decimal('sale_price',8,2);
+            $table->decimal('sale_price',12,2);
             $table->boolean('delete_data');
             $table->timestamps();
         });
