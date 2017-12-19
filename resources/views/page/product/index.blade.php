@@ -18,6 +18,9 @@
                             <th>Kode Produk</th>
                             <th>Kategori</th>
                             <th>Harga Jual</th>
+                            <th>Stock Masuk</th>
+                            <th>Stock Keluar</th>
+                            <th>Sisa Stock</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -55,6 +58,29 @@ $(function(){
                         data : "sale_price"
                     },
                     {
+                        data : "stock_in",
+                        render : function(stock, type, full, meta) {
+                            if(stock == null){
+                                return 0;
+                            }else{
+                                return stock;
+                            }
+                        }
+                    },
+                    {
+                        data : "stock_out",
+                        render : function(stock, type, full, meta) {
+                            if(stock == null){
+                                return 0;
+                            }else{
+                                return stock;
+                            }
+                        }
+                    },
+                    {
+                        data : 'id',  
+                    },
+                    {
                         data : 'id',
                         searchable : false,
                         sortable : false,
@@ -64,6 +90,22 @@ $(function(){
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
                     }
+                ],
+                columnDefs : [
+                    {
+                        render : function (data, type, row) {
+                            if(row.stock_in == null) {
+                                row.stock_in = 0;
+                            }
+                            if(row.stock_out == null){
+                                row.stock_out = 0;
+                            }
+                            return row.stock_in - row.stock_out;
+                            
+                        },
+                        targets: 5
+                    },
+                    { visible: false,  targets: [ 3,4 ] }
                 ]
             });
 });
