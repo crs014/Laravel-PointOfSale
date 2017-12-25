@@ -24,6 +24,7 @@ class ProductController extends Controller
     		$product->sale_price = $request->price;
     		$product->delete_data = false;
     		$product->save();
+            return "success";
         } 
         catch (\Exception $e) 
         {

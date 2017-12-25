@@ -23,6 +23,7 @@ class CategorieController extends Controller
             $categorie->name = $request->name;
             $categorie->delete_data = false;
             $categorie->save();
+            return "success";
         } 
         catch (\Exception $e) 
         {
