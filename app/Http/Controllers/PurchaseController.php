@@ -7,6 +7,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Product;
 use App\Http\Requests\PurchaseRequest;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -36,7 +37,6 @@ class PurchaseController extends Controller
                 $purchase_detail->quantity = $request->quantity[$key];
                 $purchase_detail->save();
             }
-
             return redirect()->route("purchases.show",['id' => $id]);
         
      
@@ -44,7 +44,17 @@ class PurchaseController extends Controller
 
     public function show($id)
     {
-        
+        try 
+        {
+            $total = PurchaseDetail::where("purchase_id","=",$id)->select(DB::raw("sum(purchase_price * quantity) as total"))->first();
+            $total = $total->total;
+            $purchase = Purchase::findOrFail($id);
+            return view("page.purchase.show",compact("purchase","total"));    
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route("purchases.index");
+        }
     }
 
     public function edit($id)

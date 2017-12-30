@@ -133,7 +133,7 @@
                         <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                         <li><a href="{{ route('categories.index') }}"><i class="fa fa-cubes"></i> <span>Kategori</span></a></li>
                         <li><a href="{{ route('products.index') }}"><i class="fa fa-cube"></i> <span>Produk</span></a></li>
-                        <li><a href="#"><i class="fa fa-upload"></i> <span>Pembelian</span></a></li>
+                        <li><a href="{{ route('purchases.index') }}"><i class="fa fa-upload"></i> <span>Pembelian</span></a></li>
                         <li><a href="#"><i class="fa fa-download"></i> <span>Penjualan</span></a></li>
                         <li><a href="#"><i class="fa fa-credit-card"></i> <span>Pembayaran</span></a></li>
                         <li><a href="#"><i class="fa fa-book"></i> <span>Laporan</span></a></li>

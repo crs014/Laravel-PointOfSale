@@ -15,4 +15,6 @@ class Purchase extends Model
     {
     	return $this->hasMany("App\Models\PurchaseDetail");
     }
+
+   
 }

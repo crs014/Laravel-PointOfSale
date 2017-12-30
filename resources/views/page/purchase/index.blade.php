@@ -51,15 +51,18 @@ $(function(){
                         data : "datetime"
                     },
                     {
-                        data : "total"
+                        data : "total",
+                        render : function(total, type, full, meta){
+                            return "Rp. " + total;
+                        }
                     },
                     {
                         data : 'id',
                         searchable : false,
                         sortable : false,
                         render : function(id, type, full, meta) {
-                            return "<a onclick='detail(" + id + ")' class='btn btn-primary'><i class='fa fa-pencil'>"+
-                                    "</i> Edit</a> "+
+                            return "<a href='/purchases/"+ id +"' class='btn btn-info'><i class='fa fa-info-circle'>"+
+                                    "</i> Detail</a> "+
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
                     }
