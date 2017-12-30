@@ -46,4 +46,20 @@ class JsonController extends Controller
         ->get();
         return datatables($purchases)->toJson();
     }
+
+    public function table_sale()
+    {
+        $sales = Sale::join("sale_details","sales.id","=","sale_details.sale_id")
+        ->select(
+            DB::raw(
+                "sum(quantity * sale_price) as total,
+                sales.id as id,
+                sales.sale_number as number,
+                sales.created_at as datetime,
+                sales.name as name,
+                sales.phone as phone"
+            )
+        )->groupBy("sales.id","sales.sale_number","sales.created_at","sales.name","sales.phone")->get();
+        return datatables($sales)->toJson();
+    }
 }

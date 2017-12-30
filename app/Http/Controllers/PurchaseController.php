@@ -57,18 +57,15 @@ class PurchaseController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-
-    }
-
-    public function update(Request $request, $id)
-    {
-         
-    }
-
     public function destroy($id)
     {
-        
+        try 
+        {
+            $purchase = Purchase::destroy($id);
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route("purchases.index");      
+        }   
     }
 }

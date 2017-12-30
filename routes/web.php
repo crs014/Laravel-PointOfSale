@@ -43,20 +43,16 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get("/","PurchaseController@index")->name("purchases.index");
 		Route::get("/create","PurchaseController@create")->name("purchases.create");
 		Route::get("/{id}","PurchaseController@show")->name("purchases.show");
-		Route::get("/{id}/edit","PurchaseController@edit")->name("purchases.edit");
-		Route::get("/{id}/delete","PurchaseController@delete")->name("purchases.delete");
 		Route::post("/create","PurchaseController@store")->name("purchases.store");
-		Route::put("/{id}/edit","PurchaseController@update")->name("purchases.update");
 		Route::delete("/{id}/delete","PurchaseController@destroy")->name("purchases.destroy");
 	});
 
 
 	Route::group(["prefix" => "sales"],function(){
 		Route::get("/","SaleController@index")->name("sales.index");
-		Route::get("/{id}","SaleController@edit")->name("sales.edit");
-		Route::get("/{id}/delete","SaleController@delete")->name("sales.delete");
-		Route::post("/","SaleController@store")->name("sales.store");
-		Route::put("/{id}","SaleController@update")->name("sales");
+		Route::get("/create","SaleController@create")->name("sales.create");
+		Route::get("/{id}","SaleController@show")->name("sales.show");
+		Route::post("/create","SaleController@store")->name("sales.store");
 		Route::delete("/{id}/delete","SaleController@destroy")->name("sales.destroy");
 	});
 
@@ -64,6 +60,7 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::post("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
 		Route::post("/product/table","JsonController@table_product")->name("json.product_table");
 		Route::post("/purchase/table","JsonController@table_purchase")->name("json.purchase_table");
+		Route::post("/sale/table","JsonController@table_sale")->name("json.sale_table");
 	});
 });
 	

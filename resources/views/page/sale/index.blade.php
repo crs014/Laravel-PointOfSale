@@ -9,14 +9,16 @@
     <section class="content"><!-- /.row -->
         <div class="box box-primary">
             <div class="box-header">
-                <a class="btn btn-success" href="{{ route('purchases.create') }}"><i class="fa fa-plus-circle"></i> Tambah</a>
+                <a class="btn btn-success" href="{{ route('sales.create') }}"><i class="fa fa-plus-circle"></i> Tambah</a>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-responsive table-striped" id="table-purchase" width="100%">
                     <thead>
                         <tr>
                             <th>Nomor Nota</th>
-                            <th>Tanggal waktu</th>
+                            <th>Telepon</th>
+                            <th>Nama Customer</th>
+                            <th>Tanggal Waktu</th>
                             <th>Total</th>
                             <th>Action</th>
                         </tr>
@@ -38,7 +40,7 @@ $(function(){
                 serverSide: true,
                 paging : true,
                 ajax: {
-                    url : "{{ route('json.purchase_table') }}",
+                    url : "{{ route('json.sale_table') }}",
                     dataType : "JSON",
                     type : "POST",
                     data : { _token: "{{csrf_token()}}"}
@@ -46,6 +48,12 @@ $(function(){
                 columns : [
                     {
                         data : "number"
+                    },
+                    {
+                        data : "phone"
+                    },
+                    {
+                        data : "name"
                     },
                     {
                         data : "datetime"
@@ -61,7 +69,7 @@ $(function(){
                         searchable : false,
                         sortable : false,
                         render : function(id, type, full, meta) {
-                            return "<a href='/purchases/"+ id +"' class='btn btn-info'><i class='fa fa-info-circle'>"+
+                            return "<a href='/sales/"+ id +"' class='btn btn-info'><i class='fa fa-info-circle'>"+
                                     "</i> Detail</a> "+
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
@@ -74,14 +82,14 @@ $(function(){
 function deleteData(id) {
     if(confirm("Apakah yakin data akan dihapus?")) {
         $.ajax({
-            url : "/purchases/" + id + "/delete",
+            url : "/sales/" + id + "/delete",
             type : "POST",
             data : { '_method' : 'DELETE', '_token' : $('input[name=_token]').val() },
             success : function(data) {
                 table.ajax.reload();
             },
             error : function() {
-                alert("Tidak dapat menghapus data");
+                alert("Tidak dapat menghapus data" + test);
             }
         });
     }
