@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
 use App\Models\Product;
+use App\Models\Categorie;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -18,16 +19,18 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        return view("page.purchase.create");
+        $categories = Categorie::where("delete_data",false)->get();
+        return view("page.purchase.create",compact('categories'));
     }
 
     public function store(Request $request)
-    {         
+    {       
+        try 
+        {
             $purchase = new Purchase(); 
             $purchase->purchase_number = strtotime("now");
             $purchase->save();
             $id = $purchase->id;
-
             foreach ($request->product as $key => $value) {
                 $product = Product::findOrFail($value);
                 $purchase_detail = new PurchaseDetail();
@@ -37,9 +40,12 @@ class PurchaseController extends Controller
                 $purchase_detail->quantity = $request->quantity[$key];
                 $purchase_detail->save();
             }
-            return redirect()->route("purchases.show",['id' => $id]);
-        
-     
+            return redirect()->route("purchases.show",['id' => $id]);  
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route("purchases.index");   
+        }  
     }
 
     public function show($id)

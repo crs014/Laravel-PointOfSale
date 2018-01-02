@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\Product;
 use App\Models\SaleDetail;
+use App\Models\SalePayment;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -43,14 +44,39 @@ class SaleController extends Controller
      
     }
 
+    private function total_sale($id)
+    {
+        $total = SaleDetail::where("sale_id","=",$id)->select(DB::raw("sum(sale_price * quantity) as total"))->first();
+        return $total->total;
+    }
+
+    private function total_payment($id)
+    {
+        try 
+        {
+            $total = SalePayment::where("sale_id","=",$id)->select(DB::raw("sum(amount) as total"))->first();
+            if($total->total == null) {
+                $total->total = 0;
+            }
+            return $total->total;    
+        } 
+        catch (\Exception $e) {
+            return "Error Exception";
+        }
+    }
+
     public function show($id)
     {
         try 
         {
-            $total = SaleDetail::where("sale_id","=",$id)->select(DB::raw("sum(sale_price * quantity) as total"))->first();
-            $total = $total->total;
+            $status = false;
+            $total = $this->total_sale($id);
+            $paid = $this->total_payment($id);
             $sale = Sale::findOrFail($id);
-            return view("page.sale.show",compact("sale","total"));    
+            if($paid > $total) {
+                $status = true;
+            }
+            return view("page.sale.show",compact("sale","total","paid","status"));    
         } 
         catch (\Exception $e) 
         {

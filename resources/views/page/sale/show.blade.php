@@ -11,11 +11,21 @@
             <div class="box-header">
                 <a class="btn btn-default" href="{{ route('sales.index') }}">Kembali</a>
                 <a class="btn btn-warning" href="#"><i class=" fa fa-sticky-note-o"></i> Cetak Nota</a>
+                <button class="btn btn-success" href="#"><i class="fa fa-credit-card"></i> Bayar</button>
             </div>
             <div class="box-body">
                 <h4>Nomor Nota : {{ $sale->sale_number }}</h4>
                 <h4>Waktu Transaksi : {{ $sale->created_at }}</h4>
                 <h4>Total : Rp. {{ $total}}</h4>
+                <h4>Terbayar : Rp. {{ $paid }}</h4>
+                <h4>Sisa Pembayaran : Rp. {{ $total  }}</h4>
+                <h4>Status : 
+                    @if($status == true)
+                    <b style="color:green;">Lunas</b>
+                    @else
+                    <b style="color:red;">Belum Lunas</b>
+                    @endif
+                </h4>
                 <br/>
                 <table class="table table-bordered table-responsive table-striped" width="100%">
                     <thead>

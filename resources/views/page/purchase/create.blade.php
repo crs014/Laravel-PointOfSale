@@ -191,6 +191,25 @@ $(function(){
         });
         $("#allTotal").text(total);
     }
- 
+
+    $(function(){
+        $('#modal-form form').validator().on('submit', function(e){
+            if(!e.isDefaultPrevented()) {
+                var url = "{{ route('products.store') }}";    
+                $.ajax({
+                    url : url,
+                    type : "POST",
+                    data : $('#modal-form form').serialize(),
+                    success : function(data) {
+                        table.ajax.reload();
+                    },
+                    error : function() {
+                        alert("tidak dapat menyimpan data!");
+                    }
+                });
+                return false;
+            }
+        });
+    });
 </script>
 @endsection 

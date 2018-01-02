@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +8,7 @@ class SalePayment extends Model
 {
     protected $table = "sale_payments";
     protected $guarded = ['id'];
-    protected $fillable = ['code_product','sale_price','delete_data',];
+    protected $fillable = ['sale_id','amount',];
     public $timestamps = true;
 
     public function sale()

@@ -20,6 +20,9 @@
                             <th>Nama Customer</th>
                             <th>Tanggal Waktu</th>
                             <th>Total</th>
+                            <th>Terbayar</th>
+                            <th>Sisa Pembayaran</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -65,6 +68,21 @@ $(function(){
                         }
                     },
                     {
+                        data : "paid",
+                        render : function(paid, type, full, meta){
+                            if(paid == null) {
+                                paid = 0;
+                            }
+                            return "Rp. "+ paid;
+                        }
+                    },
+                    {
+                        data : "id"
+                    },
+                    {
+                        data : "id"
+                    },
+                    {
                         data : 'id',
                         searchable : false,
                         sortable : false,
@@ -74,6 +92,29 @@ $(function(){
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
                     }
+                ],
+                columnDefs : [
+                    {
+                        render : function (data, type, row) {
+                            var data = row.total - row.paid 
+                            return "Rp. " + data.toString();
+                            
+                        },
+                        targets: 6
+                    },
+                    {
+                        render : function (data, type, row) {
+                            var data = "<b style='color:red'>belum lunas</b>";
+                            if(row.paid > row.total) {
+                                data = "<b syle='color:green'>lunas</b>";
+                            }
+
+                            return data;                            
+                        },
+                        targets: 7
+                    },
+                    { visible: false,  targets: [ 5 ] }
+                  
                 ]
             });
 });
