@@ -7,6 +7,7 @@ use App\Models\Sale;
 use App\Models\Product;
 use App\Models\SaleDetail;
 use App\Models\SalePayment;
+use App\Models\Categorie;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -18,7 +19,8 @@ class SaleController extends Controller
 
     public function create()
     {
-        return view('page.sale.create');
+        $categories = Categorie::where('delete_data',false)->get();
+        return view('page.sale.create',compact("categories"));
     }
 
     public function store(Request $request)
@@ -73,14 +75,40 @@ class SaleController extends Controller
             $total = $this->total_sale($id);
             $paid = $this->total_payment($id);
             $sale = Sale::findOrFail($id);
-            if($paid > $total) {
+            $need_paid = $total - $paid;
+            if($paid >= $total) {
                 $status = true;
             }
-            return view("page.sale.show",compact("sale","total","paid","status"));    
+            return view("page.sale.show",compact("sale","total","paid","status","need_paid"));    
         } 
         catch (\Exception $e) 
         {
             return redirect()->route("sales.index");
+        }
+    }
+
+    public function paid(Request $request, $id)
+    {
+        try 
+        {
+            $status = false;
+            $total = $this->total_sale($id);
+            $paid = $this->total_payment($id);
+            $amount = $total - $paid;
+            if($request->amount > $amount) {
+                return redirect()->route("sales.index");       
+            }
+            else {
+                $salePayment = new SalePayment();
+                $salePayment->sale_id = $id;
+                $salePayment->amount = $request->amount;
+                $salePayment->save();
+                return redirect()->route("sales.show",['id' => $id]);
+            }
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route("sales.index");   
         }
     }
 

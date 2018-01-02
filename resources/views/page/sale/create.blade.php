@@ -50,7 +50,7 @@
             </div> 
         </div>    
     </section>
-    @include('page.purchase.product')
+    @include('page.sale.product')
 @endsection
 @section('script')
 <script type="text/javascript">
@@ -75,15 +75,15 @@ $(function(){
                         }
                     },
                     {
-                        data : "sale_price",
-                        render : function(price, type, full, meta) {
-                            return "<p class='price'>"+price+"</p>";
-                        }
-                    },
-                    {
                         data : "categorie",
                         render : function(categorie, type, full, meta) {
                             return "<p class='categorie'>"+categorie+"</p>";
+                        }
+                    },
+                    {
+                        data : "sale_price",
+                        render : function(price, type, full, meta) {
+                            return "<p class='price'>"+price+"</p>";
                         }
                     },
                     {
@@ -110,6 +110,9 @@ $(function(){
                         data : 'id',  
                     },
                     {
+                        data : 'date_time',
+                    },
+                    {
                         data : 'id',
                         searchable : false,
                         sortable : false,
@@ -133,8 +136,9 @@ $(function(){
                         },
                         targets: 5
                     },
-                    { visible: false,  targets: [ 3,4 ] }
-                ]
+                    { visible: false,  targets: [ 3,4,6 ] }
+                ],
+                order: [[ 6, "desc" ]]
             });
 
        

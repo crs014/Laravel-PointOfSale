@@ -15,6 +15,7 @@
                             <th>Stock Masuk</th>
                             <th>Stock Keluar</th>
                             <th>Sisa Stock</th>
+                            <th>Tanggal Waktu</th>
                             <th>Action</th>
                         </tr>
                     </thead>

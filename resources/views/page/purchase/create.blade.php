@@ -102,6 +102,9 @@ $(function(){
                         data : 'id',  
                     },
                     {
+                        data : "date_time"
+                    },
+                    {
                         data : 'id',
                         searchable : false,
                         sortable : false,
@@ -125,8 +128,9 @@ $(function(){
                         },
                         targets: 5
                     },
-                    { visible: false,  targets: [ 3,4 ] }
-                ]
+                    { visible: false,  targets: [ 3,4,6 ] }
+                ],
+                order: [[ 6, "desc" ]]
             });
 
        

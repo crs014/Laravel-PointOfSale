@@ -21,6 +21,7 @@
                             <th>Stock Masuk</th>
                             <th>Stock Keluar</th>
                             <th>Sisa Stock</th>
+                            <th>Tanggal Waktu</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -81,6 +82,9 @@ $(function(){
                         data : 'id',  
                     },
                     {
+                        data : "date_time"
+                    },
+                    {
                         data : 'id',
                         searchable : false,
                         sortable : false,
@@ -90,6 +94,7 @@ $(function(){
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
                     }
+                    
                 ],
                 columnDefs : [
                     {
@@ -104,9 +109,10 @@ $(function(){
                             
                         },
                         targets: 5
-                    },
+                    }, 
                     { visible: false,  targets: [ 3,4 ] }
-                ]
+                ],
+                order: [[ 6, "desc" ]]
             });
 });
 

@@ -53,6 +53,7 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get("/create","SaleController@create")->name("sales.create");
 		Route::get("/{id}","SaleController@show")->name("sales.show");
 		Route::post("/create","SaleController@store")->name("sales.store");
+		Route::post("/{id}/paid","SaleController@paid")->name("sales.paid");
 		Route::delete("/{id}/delete","SaleController@destroy")->name("sales.destroy");
 	});
 

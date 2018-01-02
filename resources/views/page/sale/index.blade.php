@@ -12,7 +12,7 @@
                 <a class="btn btn-success" href="{{ route('sales.create') }}"><i class="fa fa-plus-circle"></i> Tambah</a>
             </div>
             <div class="box-body">
-                <table class="table table-bordered table-responsive table-striped" id="table-purchase" width="100%">
+                <table class="table table-bordered table-responsive table-striped" id="table-sale" width="100%">
                     <thead>
                         <tr>
                             <th>Nomor Nota</th>
@@ -38,7 +38,7 @@
 <script type="text/javascript">
 var table, saveMethod;
 $(function(){
-    table = $('#table-purchase').DataTable({
+    table = $('#table-sale').DataTable({
                 processing: true,
                 serverSide: true,
                 paging : true,
@@ -64,7 +64,7 @@ $(function(){
                     {
                         data : "total",
                         render : function(total, type, full, meta){
-                            return "Rp. " + total;
+                            return "Rp. " + total ;
                         }
                     },
                     {
@@ -105,15 +105,15 @@ $(function(){
                     {
                         render : function (data, type, row) {
                             var data = "<b style='color:red'>belum lunas</b>";
-                            if(row.paid > row.total) {
-                                data = "<b syle='color:green'>lunas</b>";
+                            if(row.total == row.paid) {
+                                data = "<b style='color:green'>lunas</b>";
                             }
 
                             return data;                            
                         },
                         targets: 7
                     },
-                    { visible: false,  targets: [ 5 ] }
+                    { visible: false,  targets: [5] }
                   
                 ]
             });

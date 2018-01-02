@@ -20,14 +20,13 @@ class JsonController extends Controller
     public function table_product()
     {
         $products = DB::select(" 
-            SELECT products.id as id, categories.name as categorie, 
+            SELECT products.id as id, categories.name as categorie, products.updated_at as date_time, 
             products.code_product as code_product, products.sale_price as sale_price,
             sale_details.quantity as stock_out, purchase_details.quantity as stock_in
-            FROM products 
+            FROM products
             LEFT JOIN sale_details ON sale_details.product_id = products.id
             LEFT JOIN purchase_details ON purchase_details.product_id = products.id
-            INNER JOIN categories ON products.categorie_id = categories.id");
-
+            INNER JOIN categories ON products.categorie_id = categories.id WHERE products.delete_data = 0");
         return datatables($products)->toJson();
     }
 
@@ -43,25 +42,34 @@ class JsonController extends Controller
                 purchases.created_at as datetime'
             )
         )->groupBy("purchases.id","purchases.purchase_number","purchases.created_at")
-        ->get();
+        ->get()->sortByDesc("created_at");
         return datatables($purchases)->toJson();
     }
 
     public function table_sale()
     {
-        $sales = Sale::join("sale_details","sales.id","=","sale_details.sale_id")
-        ->leftJoin("sale_payments","sales.id","=","sale_payments.sale_id")
-        ->select(
+        $sales = Sale::select(
             DB::raw(
-                "sum(quantity * sale_price) as total,
+                "sale_details.totalSale as total,
                 sales.id as id,
                 sales.sale_number as number,
                 sales.created_at as datetime,
                 sales.name as name,
                 sales.phone as phone,
-                sum(sale_payments.amount) as paid"
+                sale_payments.totalPaid as paid"
             )
-        )->groupBy("sales.id","sales.sale_number","sales.created_at","sales.name","sales.phone")->get();
+        )
+        ->join(
+            DB::raw("
+                (SELECT sale_id,sum(quantity * sale_price) as totalSale FROM sale_details GROUP BY sale_id) sale_details"
+            ),function($join) {
+                $join->on('sales.id', '=', 'sale_details.sale_id');
+        })
+        ->leftJoin(DB::raw("
+                (SELECT sale_id,sum(amount) as totalPaid FROM sale_payments GROUP BY sale_id) sale_payments"
+            ),function($join) {
+                $join->on('sales.id', '=', 'sale_payments.sale_id');
+        })->get();
         return datatables($sales)->toJson();
     }
 }

@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div> 
                 <br>
                 <br>
                 <table class="table table-bordered table-responsive table-striped" id="table-product" width="100%">
@@ -56,6 +56,7 @@
                             <th>Stock Masuk</th>
                             <th>Stock Keluar</th>
                             <th>Sisa Stock</th>
+                            <th>Tanggal Waktu</th>
                             <th>Action</th>
                         </tr>
                     </thead>
