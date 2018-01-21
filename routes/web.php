@@ -57,11 +57,25 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::delete("/{id}/delete","SaleController@destroy")->name("sales.destroy");
 	});
 
+	Route::group(["prefix" => "sales"],function(){
+		Route::get("/","SaleController@index")->name("sales.index");
+		Route::get("/create","SaleController@create")->name("sales.create");
+		Route::get("/{id}","SaleController@show")->name("sales.show");
+		Route::post("/create","SaleController@store")->name("sales.store");
+		Route::post("/{id}/paid","SaleController@paid")->name("sales.paid");
+		Route::delete("/{id}/delete","SaleController@destroy")->name("sales.destroy");
+	});
+
+	Route::group(["prefix" => "payment"],function(){
+		Route::get("/","PaymentController@index")->name("payment.index");
+	});
+
 	Route::group(["prefix" => "json"],function(){
 		Route::post("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
 		Route::post("/product/table","JsonController@table_product")->name("json.product_table");
 		Route::post("/purchase/table","JsonController@table_purchase")->name("json.purchase_table");
 		Route::post("/sale/table","JsonController@table_sale")->name("json.sale_table");
+		Route::post("/payment/table","JsonController@table_payment")->name("json.payment_table");
 	});
 });
 	

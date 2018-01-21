@@ -8,6 +8,7 @@ use App\Models\Categorie;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Purchase;
+use App\Models\SalePayment;
 use DataTables;
 
 class JsonController extends Controller
@@ -19,14 +20,28 @@ class JsonController extends Controller
 
     public function table_product()
     {
-        $products = DB::select(" 
-            SELECT products.id as id, categories.name as categorie, products.updated_at as date_time, 
-            products.code_product as code_product, products.sale_price as sale_price,
-            sale_details.quantity as stock_out, purchase_details.quantity as stock_in
-            FROM products
-            LEFT JOIN sale_details ON sale_details.product_id = products.id
-            LEFT JOIN purchase_details ON purchase_details.product_id = products.id
-            INNER JOIN categories ON products.categorie_id = categories.id WHERE products.delete_data = 0");
+        $products = Product::select(
+            DB::raw(
+                "products.id as id,
+                categories.name as categorie,
+                products.updated_at as date_time,
+                products.code_product as code_product,
+                products.sale_price as sale_price,
+                sale_details.quantity as stock_out,
+                purchase_details.quantity as stock_in"
+            )
+        )
+        ->leftJoin(
+            DB::raw("
+                (SELECT product_id,sum(quantity) as quantity FROM sale_details GROUP BY product_id) sale_details"
+            ),function($join) {
+                $join->on('products.id', '=', 'sale_details.product_id');
+        })
+        ->leftJoin(DB::raw("
+                (SELECT product_id,sum(quantity) as quantity FROM purchase_details GROUP BY product_id) purchase_details"
+            ),function($join) {
+                $join->on('products.id', '=', 'purchase_details.product_id');
+        })->join('categories', 'categories.id', '=', 'products.categorie_id')->where("products.delete_data","=",0)->get();
         return datatables($products)->toJson();
     }
 
@@ -71,5 +86,17 @@ class JsonController extends Controller
                 $join->on('sales.id', '=', 'sale_payments.sale_id');
         })->get();
         return datatables($sales)->toJson();
+    }
+
+    public function table_payment() 
+    {
+        $payment = SalePayment::select(
+            DB::raw(
+                "sale_payments.amount as amount,
+                sales.sale_number as number,
+                sale_payments.created_at as datetime"
+            )
+        )->leftJoin("sales","sales.id","=","sale_payments.sale_id")->get();
+        return datatables($payment)->toJson(); 
     }
 }
