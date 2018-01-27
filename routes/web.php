@@ -11,9 +11,18 @@
 |
 */
 
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+//Auth::routes();
+// Registration Routes...
+//Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+//Route::post('register', 'Auth\RegisterController@register');
 
+Route::group(["prefix" => "login"],function(){
+	Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
+	Route::post('/', 'Auth\LoginController@login');
+});
+
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get("/", function () {
     return view("page.home.welcome");
@@ -70,12 +79,17 @@ Route::group(['middleware'=>'auth'],function(){
 		Route::get("/","PaymentController@index")->name("payment.index");
 	});
 
+	Route::group(["prefix" => "report"],function(){
+		Route::get("/","ReportController@index")->name("report.index");
+	});
+
 	Route::group(["prefix" => "json"],function(){
 		Route::post("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
 		Route::post("/product/table","JsonController@table_product")->name("json.product_table");
 		Route::post("/purchase/table","JsonController@table_purchase")->name("json.purchase_table");
 		Route::post("/sale/table","JsonController@table_sale")->name("json.sale_table");
 		Route::post("/payment/table","JsonController@table_payment")->name("json.payment_table");
+		Route::post("/report/table","JsonController@table_report")->name("json.report_table");
 	});
 });
 	

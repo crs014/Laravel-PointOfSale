@@ -136,7 +136,7 @@
                         <li><a href="{{ route('purchases.index') }}"><i class="fa fa-upload"></i> <span>Pembelian</span></a></li>
                         <li><a href="{{ route('sales.index') }}"><i class="fa fa-download"></i> <span>Penjualan</span></a></li>
                         <li><a href="{{ route('payment.index') }}"><i class="fa fa-credit-card"></i> <span>History Pembayaran</span></a></li>
-                        <li><a href="#"><i class="fa fa-book"></i> <span>Laporan</span></a></li>
+                        <li><a href="{{ route('report.index') }}"><i class="fa fa-book"></i> <span>Laporan</span></a></li>
                     @endif
                 </ul>
             </section>

@@ -45,6 +45,33 @@ class JsonController extends Controller
         return datatables($products)->toJson();
     }
 
+    public function table_report() 
+    {
+        $reports = DB::select("
+            SELECT tbl1.year as year,
+            tbl1.month as month,
+            tbl2.totalPurchase as total_purchase, 
+            tbl1.totalSale as total_sale,
+            tbl1.totalSale - tbl2.totalPurchase as laba
+            FROM ( 
+                SELECT YEAR(created_at) as year, MONTH(created_at) as month, 
+                SUM(sale_details.quantity * sale_details.sale_price) AS totalSale
+                FROM sales 
+                RIGHT JOIN sale_details ON sales.id = sale_details.sale_id 
+                GROUP BY MONTH(created_at),YEAR(created_at) 
+            ) AS tbl1
+            LEFT OUTER JOIN (    
+                SELECT YEAR(created_at) as year, MONTH(created_at) as month, 
+                SUM(purchase_details.quantity * purchase_details.purchase_price) AS totalPurchase 
+                FROM purchases 
+                RIGHT JOIN purchase_details ON purchases.id = purchase_details.purchase_id 
+                GROUP BY MONTH(created_at),YEAR(created_at) 
+            ) AS tbl2
+            ON tbl1.month = tbl2.month AND tbl1.year = tbl2.year
+        ",[]);
+        return datatables($reports)->toJson();
+    }
+
     public function table_purchase()
     {
         $purchases = Purchase::join(
