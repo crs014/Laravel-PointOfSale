@@ -12,24 +12,26 @@
                 <a class="btn btn-success" href="{{ route('sales.create') }}"><i class="fa fa-plus-circle"></i> Tambah</a>
             </div>
             <div class="box-body">
-                <table class="table table-bordered table-responsive table-striped" id="table-sale" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Nomor Nota</th>
-                            <th>Telepon</th>
-                            <th>Nama Customer</th>
-                            <th>Tanggal Waktu</th>
-                            <th>Total</th>
-                            <th>Terbayar</th>
-                            <th>Sisa Pembayaran</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive table-striped" id="table-sale" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Nomor Nota</th>
+                                <th>Telepon</th>
+                                <th>Nama Customer</th>
+                                <th>Tanggal Waktu</th>
+                                <th>Total</th>
+                                <th>Terbayar</th>
+                                <th>Sisa Pembayaran</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                <div class="table-responsive">
             </div> 
         </div>    
     </section>

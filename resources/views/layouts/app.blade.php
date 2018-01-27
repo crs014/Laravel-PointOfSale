@@ -153,6 +153,7 @@
     <script src="{{ asset('public/DataTables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('public/DataTables/media/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/validator.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     @yield('script')
 </body>
 </html>
