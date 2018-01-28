@@ -16,19 +16,23 @@
 //Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 //Route::post('register', 'Auth\RegisterController@register');
 
+
 Route::group(["prefix" => "login"],function(){
 	Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('/', 'Auth\LoginController@login');
 });
-
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get("/", function () {
-    return view("page.home.welcome");
-});
+
+
 
 Route::group(['middleware'=>'auth'],function(){
+	Route::get("/", 'HomeController@index');
+
+	Route::group(["prefix" => "home"],function(){
+		Route::get('/', 'HomeController@index')->name('home');
+		Route::post("/chart","HomeController@chart_data")->name("home.chart");
+	});
 
 	Route::group(["prefix" => "products"],function(){
 		Route::get("/","ProductController@index")->name("products.index");

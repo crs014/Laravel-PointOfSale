@@ -17,7 +17,7 @@ class CreateSalePaymentsTable extends Migration
             $table->increments('id');
             $table->integer('sale_id')->unsigned();
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
-            $table->decimal('sale_price',12,2);
+            $table->decimal('amount',20,4);
             $table->timestamps();
         });
     }
