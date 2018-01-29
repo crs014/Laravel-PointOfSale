@@ -66,7 +66,7 @@ $(function(){
                     {
                         data : "total",
                         render : function(total, type, full, meta){
-                            return "Rp. " + total ;
+                            return toRp(total);
                         }
                     },
                     {
@@ -75,7 +75,7 @@ $(function(){
                             if(paid == null) {
                                 paid = 0;
                             }
-                            return "Rp. "+ paid;
+                            return toRp(paid);
                         }
                     },
                     {
@@ -99,7 +99,7 @@ $(function(){
                     {
                         render : function (data, type, row) {
                             var data = row.total - row.paid 
-                            return "Rp. " + data.toString();
+                            return toRp(data);
                             
                         },
                         targets: 6
@@ -132,7 +132,7 @@ function deleteData(id) {
                 table.ajax.reload();
             },
             error : function() {
-                alert("Tidak dapat menghapus data" + test);
+                alert("Tidak dapat menghapus data");
             }
         });
     }

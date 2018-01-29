@@ -13,7 +13,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3>Grafik Penghasilan Laba Perbulan</h3>
+                            <h3>Grafik Penghasilan Laba 7 Bulan Terakhir</h3>
                             <canvas id="myChart" height="200"></canvas>
                         </div>
                         <div class="col-md-6">
@@ -38,7 +38,7 @@
                                             @if($item->total_sale == null)
                                                 0
                                             @else
-                                                {{$item->total_sale}}
+                                                {{to_rp($item->total_sale)}}
                                             @endif
                                             
                                         </td>
@@ -46,26 +46,26 @@
                                             @if($item->total_purchase == null)
                                                 0
                                             @else
-                                                {{$item->total_purchase}}
+                                                {{to_rp($item->total_purchase)}}
                                             @endif
                                         </td>
                                         <td>    
                                             @if($item->total_sale == null)
                                                 <p style="color:red">
-                                                    {{0 - $item->total_purchase}}
+                                                    {{to_rp(0 - $item->total_purchase)}}
                                                 <p>
                                             @elseif($item->total_purchase == null)
                                                 <p style="color:green">
-                                                    {{$item->total_sale - 0}}
+                                                    {{to_rp($item->total_sale - 0)}}
                                                 </p>
                                             @else
                                                 @if($item->laba > 0)
                                                     <p style="color: green">
-                                                        {{$item->laba}}
+                                                        {{to_rp($item->laba)}}
                                                     </p>
                                                 @else
                                                     <p style="color: red">
-                                                        {{$item->laba}}
+                                                        {{to_rp($item->laba)}}
                                                     </p>
                                                 @endif
                                                 
@@ -76,12 +76,12 @@
                                 </tbody>
                             </table>
                             <p>Total Penjualan Hari Ini : 
-                                <b>{{$today_data['sale']}}</b>
+                                <b>{{to_rp($today_data['sale'])}}</b>
                             </p>
                             <p>Total Pembelian Hari Ini : 
-                               <b>{{$today_data['purchase']}}</b>
+                               <b>{{to_rp($today_data['purchase'])}}</b>
                             </p>
-                            <p>Laba Hari Ini : <b>{{$today_data['sale'] - $today_data['purchase']}}</b></p>
+                            <p>Laba Hari Ini : <b>{{to_rp($today_data['sale'] - $today_data['purchase'])}}</b></p>
                         </div>
                     </div>
                 </div>  

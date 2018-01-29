@@ -51,8 +51,8 @@
                     <thead>
                         <tr>
                             <th>Kode Produk</th>
-                            <th>Kategori</th>
                             <th>Harga Jual</th>
+                            <th>Kategori</th>
                             <th>Stock Masuk</th>
                             <th>Stock Keluar</th>
                             <th>Sisa Stock</th>

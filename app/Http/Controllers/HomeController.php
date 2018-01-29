@@ -40,52 +40,54 @@ class HomeController extends Controller
     private function table_data() 
     {
         $data = DB::select("
-            SELECT tbl1.year as year,
-            tbl1.day as day,
-            tbl1.month as month,
-            tbl2.totalPurchase as total_purchase, 
-            tbl1.totalSale as total_sale,
-            tbl1.totalSale - tbl2.totalPurchase as laba
-            FROM ( 
-                SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day, 
-                SUM(sale_details.quantity * sale_details.sale_price) AS totalSale
-                FROM sales 
-                RIGHT JOIN sale_details ON sales.id = sale_details.sale_id 
-                GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
-            ) AS tbl1
-            LEFT OUTER JOIN 
-            ( 
-                SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day,
-                SUM(purchase_details.quantity * purchase_details.purchase_price) AS totalPurchase 
-                FROM purchases 
-                RIGHT JOIN purchase_details ON purchases.id = purchase_details.purchase_id 
-                GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
-            ) AS tbl2
-            ON tbl1.day AND tbl1.month = tbl2.month AND tbl1.year = tbl2.year AND tbl1.day = tbl2.day
-            UNION
-            SELECT tbl2.year as year,
-            tbl2.day as day,
-            tbl2.month as month,
-            tbl2.totalPurchase as total_purchase, 
-            tbl1.totalSale as total_sale,
-            tbl1.totalSale - tbl2.totalPurchase as laba
-            FROM ( 
-                SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day,
-                SUM(sale_details.quantity * sale_details.sale_price) AS totalSale
-                FROM sales 
-                RIGHT JOIN sale_details ON sales.id = sale_details.sale_id 
-                GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
-            ) AS tbl1
-            RIGHT OUTER JOIN 
-            ( 
-                SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day,
-                SUM(purchase_details.quantity * purchase_details.purchase_price) AS totalPurchase 
-                FROM purchases 
-                RIGHT JOIN purchase_details ON purchases.id = purchase_details.purchase_id 
-                GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
-            ) AS tbl2
-            ON tbl1.month = tbl2.month AND tbl1.year = tbl2.year AND tbl1.day = tbl2.day
-            LIMIT 5
+            SELECT * FROM (
+                SELECT tbl1.year as year,
+                tbl1.day as day,
+                tbl1.month as month,
+                tbl2.totalPurchase as total_purchase, 
+                tbl1.totalSale as total_sale,
+                tbl1.totalSale - tbl2.totalPurchase as laba
+                FROM ( 
+                    SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day, 
+                    SUM(sale_details.quantity * sale_details.sale_price) AS totalSale
+                    FROM sales 
+                    RIGHT JOIN sale_details ON sales.id = sale_details.sale_id 
+                    GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
+                ) AS tbl1
+                LEFT OUTER JOIN 
+                ( 
+                    SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day,
+                    SUM(purchase_details.quantity * purchase_details.purchase_price) AS totalPurchase 
+                    FROM purchases 
+                    RIGHT JOIN purchase_details ON purchases.id = purchase_details.purchase_id 
+                    GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
+                ) AS tbl2
+                ON tbl1.day AND tbl1.month = tbl2.month AND tbl1.year = tbl2.year AND tbl1.day = tbl2.day
+                UNION
+                SELECT tbl2.year as year,
+                tbl2.day as day,
+                tbl2.month as month,
+                tbl2.totalPurchase as total_purchase, 
+                tbl1.totalSale as total_sale,
+                tbl1.totalSale - tbl2.totalPurchase as laba
+                FROM ( 
+                    SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day,
+                    SUM(sale_details.quantity * sale_details.sale_price) AS totalSale
+                    FROM sales 
+                    RIGHT JOIN sale_details ON sales.id = sale_details.sale_id 
+                    GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
+                ) AS tbl1
+                RIGHT OUTER JOIN 
+                ( 
+                    SELECT YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day,
+                    SUM(purchase_details.quantity * purchase_details.purchase_price) AS totalPurchase 
+                    FROM purchases 
+                    RIGHT JOIN purchase_details ON purchases.id = purchase_details.purchase_id 
+                    GROUP BY YEAR(created_at),MONTH(created_at),DAY(created_at) 
+                ) AS tbl2
+                ON tbl1.month = tbl2.month AND tbl1.year = tbl2.year AND tbl1.day = tbl2.day
+                LIMIT 5
+            ) as tbl ORDER BY year DESC, month DESC, day DESC
         ",[]);
         return $data;
     }

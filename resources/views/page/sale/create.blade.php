@@ -40,7 +40,7 @@
                         <tbody id="cart-list">
                         </tbody>
                     </table>
-                    <p>Total : Rp <b id="allTotal">0</b></p>
+                    <p>Total : <b id="allTotal">0</b></p>
                     <button type="submit" class="btn btn-info" style="float: right;">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Simpan 
@@ -83,7 +83,7 @@ $(function(){
                     {
                         data : "sale_price",
                         render : function(price, type, full, meta) {
-                            return "<p class='price'>"+price+"</p>";
+                            return toRp(price)+"<input type='hidden' class='price' value='"+price+"'>";
                         }
                     },
                     {
@@ -149,12 +149,12 @@ $(function(){
         var tr = $(param).parent().parent();
         var code = tr.find(".code").text();
         var categorie = tr.find(".categorie").text();
-        var price = tr.find(".price").text();
+        var price = tr.find(".price").val();
         var itemId = tr.find(".item-id").val();
         var col_code = "<tr><td>"+code+"</td>";
         var col_categorie = "<td>"+ categorie +"</td>";
         var col_price = "<td><input type='number' class='price' value='"+price+"' readonly></td>";
-        var quantity = "<td><input type='number' class='quantity' name='quantity[]' value='1' min='1' onchange='findSubtotal(this)'></td>";
+        var quantity = "<td><input type='number' class='quantity' name='quantity[]' value='0' min='1' onchange='findSubtotal(this)'></td>";
         var col_subtotal = "<td class='sub-total'>0</td>";
         var col_itemId = "<td><input name='product[]' class='product-id' type='hidden' value='"+itemId+"'/>";
         var action = "<button type='button' class='btn btn-danger remove-item' onclick='removeItem(this)'><i class='fa fa-trash'></i> Remove</button></td></tr>";
@@ -201,7 +201,7 @@ $(function(){
             }
             total += amount;
         });
-        $("#allTotal").text(total);
+        $("#allTotal").text(toRp(total));
     }
  
 </script>

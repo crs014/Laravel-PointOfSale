@@ -55,7 +55,7 @@ $(function(){
                     {
                         data : "total",
                         render : function(total, type, full, meta){
-                            return "Rp. " + total;
+                            return toRp(total);
                         }
                     },
                     {

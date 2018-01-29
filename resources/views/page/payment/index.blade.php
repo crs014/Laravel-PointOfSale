@@ -45,7 +45,7 @@ $(function(){
                     {
                         data : "amount",
                         render : function(amount, type, full, meta) {
-                            return "Rp." + amount;
+                            return toRp(amount);
                         }
                     },
                     {

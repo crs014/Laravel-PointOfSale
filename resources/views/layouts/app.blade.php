@@ -154,6 +154,19 @@
     <script src="{{ asset('public/DataTables/media/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/validator.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript">
+        function toRp(angka){
+            var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
+            var rev2    = '';
+            for(var i = 0; i < rev.length; i++){
+                rev2  += rev[i];
+                if((i + 1) % 3 === 0 && i !== (rev.length - 1)){
+                    rev2 += '.';
+                }
+            }
+            return 'Rp. ' + rev2.split('').reverse().join('');
+        }
+    </script>
     @yield('script')
 </body>
 </html>

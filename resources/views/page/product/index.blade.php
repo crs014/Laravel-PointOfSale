@@ -56,7 +56,10 @@ $(function(){
                         data : "categorie"
                     },
                     {
-                        data : "sale_price"
+                        data : "sale_price",
+                        render : function(price,type,full,meta) {
+                            return toRp(price);
+                        }
                     },
                     {
                         data : "stock_in",

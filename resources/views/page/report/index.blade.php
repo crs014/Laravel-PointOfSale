@@ -56,7 +56,7 @@ $(function(){
                             if(total == null){
                                 return 0;
                             }else{
-                                return total;
+                                return toRp(total);
                             }
                         }
                     },
@@ -66,7 +66,7 @@ $(function(){
                             if(total == null){
                                 return 0;
                             }else{
-                                return total;
+                                return toRp(total);
                             }
                         }
                     },
@@ -83,9 +83,9 @@ $(function(){
                             if(laba == 0) {
                                 return "<b>" + laba + "</b>";
                             }else if(laba > 0) {
-                                return "<b style='color:green'>"+laba+"</b>";
+                                return "<b style='color:green'>"+toRp(laba)+"</b>";
                             }else {
-                                return "<b style='color:red'>"+laba+"</b>";
+                                return "<b style='color:red'>"+toRp(laba)+"</b>";
                             }
                             
                         },
