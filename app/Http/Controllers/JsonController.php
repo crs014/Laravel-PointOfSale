@@ -147,4 +147,35 @@ class JsonController extends Controller
         )->leftJoin("sales","sales.id","=","sale_payments.sale_id")->get();
         return datatables($payment)->toJson(); 
     }
+
+    public function product_notification() 
+    {
+        $products = Product::select(
+            DB::raw(
+                "products.id as id,
+                categories.name as categorie,
+                products.updated_at as date_time,
+                products.code_product as code_product,
+                products.sale_price as sale_price,
+                sale_details.quantity as stock_out,
+                purchase_details.quantity as stock_in,
+                IFNULL(purchase_details.quantity, 0) - IFNULL(sale_details.quantity, 0) as stock"  
+            )
+        )
+        ->leftJoin(
+            DB::raw("
+                (SELECT product_id,sum(quantity) as quantity FROM sale_details GROUP BY product_id) sale_details"
+            ),function($join) {
+                $join->on('products.id', '=', 'sale_details.product_id');
+        })
+        ->leftJoin(DB::raw("
+                (SELECT product_id,sum(quantity) as quantity FROM purchase_details GROUP BY product_id) purchase_details"
+            ),function($join) {
+                $join->on('products.id', '=', 'purchase_details.product_id');
+        })->join('categories', 'categories.id', '=', 'products.categorie_id')
+        ->where("products.delete_data","=",0)
+        ->whereRaw("IFNULL(purchase_details.quantity, 0) - IFNULL(sale_details.quantity, 0) <= ?",[0])
+        ->get();
+        return $products->toJson();   
+    }
 }

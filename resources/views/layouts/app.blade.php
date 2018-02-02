@@ -22,7 +22,7 @@
     <div class="wrapper">
         <!-- open navbar -->
         <header class="main-header">
-            <a href="index2.html" class="logo">
+            <a href="{{ route('home') }}" class="logo">
                 <span class="logo-mini"><b>G</b>RD</span>
                 <span class="logo-lg"><b>Grandeur</b></span>
             </a>
@@ -36,18 +36,14 @@
                         <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
+                                <span class="label label-warning" id="count-notif-product"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
+                                <li class="header" id="header-notif-product"></li>
                                 <li>
-                                    <ul class="menu">
+                                    <ul class="menu" id="menu-notif-product">
                                         <!-- loop here -->
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into thepage and may cause design problems
-                                            </a>
-                                        </li>
+                                        
                                         <!-- end loop -->
                                     </ul>
                                 </li>
@@ -165,7 +161,46 @@
                 }
             }
             return 'Rp. ' + rev2.split('').reverse().join('');
-        }
+        }   
+
+        $(function(){
+            $.ajax({
+                url : "{{ route('json.product_notification') }}",
+                type : "POST",
+                data : { '_method' : 'POST', '_token' : $('input[name=_token]').val() },
+                success : function(data) {
+                    data = JSON.parse(data);
+                    var count = data.length;
+                    var text = "";
+                    for(x in data) {
+                        if(data[x].stock < 0){
+                            text +=  "<li>"+
+                                    "<a href='#''>"+
+                                    "<i class='fa fa-warning text-yellow'></i>" + 
+                                    "kode barang " + data[x].code_product + " kurang" +
+                                    "</a>"+
+                                    "</li>";                            
+                        }
+                        else{
+                            text +=  "<li>"+
+                                    "<a href='#''>"+
+                                    "<i class='fa fa-warning text-yellow'></i>" + 
+                                    "kode barang " + data[x].code_product + " habis" +
+                                    "</a>"+
+                                    "</li>";
+                        }
+
+                    }
+                    $("#count-notif-product").text(count);
+                    $("#header-notif-product").text("produk yang habis atau kurang ada " + count);
+                    $("#menu-notif-product").append(text);
+                },
+                error : function() {
+                    alert("gagal ambil data notifikasi");
+                }
+            });   
+        }); 
+
     </script>
     @yield('script')
 </body>

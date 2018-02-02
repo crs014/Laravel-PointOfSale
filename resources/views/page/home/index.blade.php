@@ -118,7 +118,13 @@ function generateLabel(data) {
 function generateData(data) {
     var dataReturn = [];
     for (var i = 0; i < data.length;i++) {
-        dataReturn.unshift(data[i].laba);
+        if(data[i].total_sale == null) {
+            data[i].total_sale = 0;
+        }
+        if(data[i].total_purchase == null) {
+            data[i].total_purchase = 0;
+        }
+        dataReturn.unshift(data[i].total_sale - data[i].total_purchase);
     }
     return dataReturn;   
 }
@@ -126,9 +132,6 @@ function generateData(data) {
 function displayChart(data) {
     var label = generateLabel(data);
     var dataBind = generateData(data);
-    console.log(data);
-    console.log(label);
-    console.log(dataBind);
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         type: 'line',
