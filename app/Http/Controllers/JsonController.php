@@ -45,6 +45,7 @@ class JsonController extends Controller
         return datatables($products)->toJson();
     }
 
+
     public function table_report() 
     {
         $reports = DB::select("
@@ -132,7 +133,9 @@ class JsonController extends Controller
                 (SELECT sale_id,sum(amount) as totalPaid FROM sale_payments GROUP BY sale_id) sale_payments"
             ),function($join) {
                 $join->on('sales.id', '=', 'sale_payments.sale_id');
-        })->get();
+        })
+        
+        ->get();
         return datatables($sales)->toJson();
     }
 
@@ -177,5 +180,34 @@ class JsonController extends Controller
         ->whereRaw("IFNULL(purchase_details.quantity, 0) - IFNULL(sale_details.quantity, 0) <= ?",[0])
         ->get();
         return $products->toJson();   
+    }
+
+    public function sale_notification() 
+    {
+        $sales = Sale::select(
+            DB::raw(
+                "sale_details.totalSale as total,
+                sales.id as id,
+                sales.sale_number as number,
+                sales.created_at as datetime,
+                sales.name as name,
+                sales.phone as phone,
+                sale_payments.totalPaid as paid"
+            )
+        )
+        ->join(
+            DB::raw("
+                (SELECT sale_id,sum(quantity * sale_price) as totalSale FROM sale_details GROUP BY sale_id) sale_details"
+            ),function($join) {
+                $join->on('sales.id', '=', 'sale_details.sale_id');
+        })
+        ->leftJoin(DB::raw("
+                (SELECT sale_id,sum(amount) as totalPaid FROM sale_payments GROUP BY sale_id) sale_payments"
+            ),function($join) {
+                $join->on('sales.id', '=', 'sale_payments.sale_id');
+        })
+        ->whereRaw("IFNULL(sale_payments.totalPaid,0) < sale_details.totalSale AND DATE(NOW()) > DATE_ADD(DATE(sales.created_at), INTERVAL 7 DAY)")
+        ->get();
+        return $sales->toJson();
     }
 }

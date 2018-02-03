@@ -57,7 +57,8 @@ $(function(){
                     {
                         data : "datetime"
                     }
-                ]
+                ],
+                order: [[ 2, "desc" ]]
             });
 });
 </script>

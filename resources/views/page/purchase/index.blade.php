@@ -68,7 +68,8 @@ $(function(){
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
                     }
-                ]
+                ],
+                order: [[ 1, "desc" ]]
             });
 });
 

@@ -47,33 +47,25 @@
                                         <!-- end loop -->
                                     </ul>
                                 </li>
-                                <li class="footer"><a href="#">View all</a></li>
+                                <li class="footer"><a href="{{ route('products.index') }}">Lihat Semua Produk</a></li>
                             </ul>
                         </li>
                         <!-- Tasks: style can be found in dropdown.less -->
                         <li class="dropdown tasks-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-flag-o"></i>
-                                <span class="label label-danger">9</span>
+                                <span class="label label-danger" id="count-notif-sale"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 9 tasks</li>
+                                <li class="header" id="header-notif-sale"></li>
                                 <li>
-                                    <ul class="menu">
+                                    <ul class="menu" id="menu-notif-sale">
                                         <!-- loop here -->
-                                        <li>
-                                            <a href="#">
-                                                <h3>Design some buttons<small class="pull-right">20%</small></h3>
-                                                <div class="progress xs">
-                                                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                        <span class="sr-only">20% Complete</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
+                                       
+                                        <!-- end loop -->
                                     </ul>
                                 </li>
-                                <li class="footer"><a href="#">View all tasks</a></li>
+                                <li class="footer"><a href="{{ route('sales.index') }}">Liat Semua Penjualan</a></li>
                             </ul>
                         </li>
                         @if (Auth::guest())
@@ -149,7 +141,7 @@
     <script src="{{ asset('public/DataTables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('public/DataTables/media/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/js/validator.min.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="{{ asset('public/js/chart.js')}}"></script>
     <script type="text/javascript">
         function toRp(angka){
             var rev     = parseInt(angka, 10).toString().split('').reverse().join('');
@@ -164,6 +156,8 @@
         }   
 
         $(function(){
+
+            //=======load product_notification data=======
             $.ajax({
                 url : "{{ route('json.product_notification') }}",
                 type : "POST",
@@ -173,6 +167,9 @@
                     var count = data.length;
                     var text = "";
                     for(x in data) {
+                        if(x == 4){
+                            break;
+                        }
                         if(data[x].stock < 0){
                             text +=  "<li>"+
                                     "<a href='#''>"+
@@ -198,7 +195,37 @@
                 error : function() {
                     alert("gagal ambil data notifikasi");
                 }
-            });   
+            });
+
+
+            //=======load sale_notification data=======
+           $.ajax({
+                url : "{{ route('json.sale_notification') }}",
+                type : "POST",
+                data : { '_method' : 'POST', '_token' : $('input[name=_token]').val() },
+                success : function(data) {
+                    data = JSON.parse(data);
+                    var count = data.length;
+                    var text = "";
+                    for(x in data) {
+                        if(x == 4){
+                            break;
+                        }
+                        text +=  "<li>"+
+                                    "<a href='/sales/"+data[x].id+"'>"+
+                                    "<i class='fa fa-warning text-yellow'></i> " + 
+                                    "Nomor Nota " + data[x].number  +
+                                    "</a>"+
+                                    "</li>";
+                    }
+                    $("#count-notif-sale").text(count);
+                    $("#header-notif-sale").text("penjualan yang seminggu belum lunas ada " + count);
+                    $("#menu-notif-sale").append(text);
+                },
+                error : function() {
+                    alert("gagal ambil data notifikasi");
+                }
+            });      
         }); 
 
     </script>

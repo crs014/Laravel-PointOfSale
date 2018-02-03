@@ -87,6 +87,26 @@ class SaleController extends Controller
         }
     }
 
+    public function nota($id)
+    {
+        try 
+        {
+            $status = false;
+            $total = $this->total_sale($id);
+            $paid = $this->total_payment($id);
+            $sale = Sale::findOrFail($id);
+            $need_paid = $total - $paid;
+            if($paid >= $total) {
+                $status = true;
+            }
+            return view("page.sale.nota",compact("sale","total","paid","status","need_paid"));    
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route("sales.index");
+        }
+    }
+
     public function paid(Request $request, $id)
     {
         try 

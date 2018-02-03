@@ -64,6 +64,7 @@ Route::group(['middleware'=>'auth'],function(){
 	Route::group(["prefix" => "sales"],function(){
 		Route::get("/","SaleController@index")->name("sales.index");
 		Route::get("/create","SaleController@create")->name("sales.create");
+		Route::get("/nota/{id}","SaleController@nota")->name("sales.nota");
 		Route::get("/{id}","SaleController@show")->name("sales.show");
 		Route::post("/create","SaleController@store")->name("sales.store");
 		Route::post("/{id}/paid","SaleController@paid")->name("sales.paid");
@@ -76,9 +77,11 @@ Route::group(['middleware'=>'auth'],function(){
 
 	Route::group(["prefix" => "report"],function(){
 		Route::get("/","ReportController@index")->name("report.index");
+		Route::get("/{month}/{year}","ReportController@show")->name("report.show");
 	});
 
 	Route::group(["prefix" => "json"],function(){
+		Route::post("/sale/notification","JsonController@sale_notification")->name('json.sale_notification');
 		Route::post("/product/notification","JsonController@product_notification")->name('json.product_notification');
 		Route::post("/categorie/table","JsonController@table_categorie")->name("json.categorie_table");
 		Route::post("/product/table","JsonController@table_product")->name("json.product_table");

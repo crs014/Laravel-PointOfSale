@@ -117,7 +117,8 @@ $(function(){
                     },
                     { visible: false,  targets: [5] }
                   
-                ]
+                ],
+                order: [[ 3, "desc" ]]
             });
 });
 

@@ -19,6 +19,7 @@
                                 <th>Total Pembelian</th>
                                 <th>Total Penjualan</th>
                                 <th>Laba</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +73,9 @@ $(function(){
                     },
                     {
                         data : "laba"
+                    },
+                    {
+                        data : "month"
                     }
                 ],
                 columnDefs : [
@@ -90,6 +94,13 @@ $(function(){
                             
                         },
                         targets: 4
+                    },
+                    {
+                        render : function (data, type, row) {
+                            return "<a href='/report/"+row.month+"/"+row.year+"' class='btn btn-info'><i class='fa fa-info-circle'>"+
+                                    "</i> Detail</a>";
+                        },
+                        targets: 5  
                     }
                 ],
                 order: [

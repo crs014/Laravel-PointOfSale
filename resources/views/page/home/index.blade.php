@@ -59,7 +59,7 @@
                                                     {{to_rp($item->total_sale - 0)}}
                                                 </p>
                                             @else
-                                                @if($item->laba > 0)
+                                                @if($item->laba >= 0)
                                                     <p style="color: green">
                                                         {{to_rp($item->laba)}}
                                                     </p>

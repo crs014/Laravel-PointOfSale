@@ -46,7 +46,9 @@
         <div class="box box-primary">
             <div class="box-header">
                 <a class="btn btn-default" href="{{ route('sales.index') }}">Kembali</a>
-                <a class="btn btn-warning" href="#"><i class=" fa fa-sticky-note-o"></i> Cetak Nota</a>
+                <button class="btn btn-warning" onclick='printExternal("/sales/nota/{{$sale->id}}")'>
+                    <i class=" fa fa-sticky-note-o"></i> Cetak Nota
+                </button>
                 <button class="btn btn-success" data-toggle="modal" data-target="#modalPaid">
                     <i class="fa fa-credit-card"></i> Bayar
                 </button>
@@ -70,7 +72,7 @@
                         <tr>
                             <th>Kode Product</th>
                             <th>Kategori</th>
-                            <th>Harga Beli</th>
+                            <th>Harga Jual</th>
                             <th>Jumlah</th>
                             <th>Sub Total</th>
                         </tr>
@@ -90,4 +92,15 @@
             </div> 
         </div>    
     </section>
+@endsection
+@section('script')
+<script type="text/javascript">
+function printExternal(url) {
+    var printWindow = window.open( url, 'Print', 'left=200, top=200, width=950, height=500, toolbar=0, resizable=0');
+    printWindow.addEventListener('load', function(){
+        printWindow.print();
+        printWindow.close();
+    }, true);
+}
+</script>
 @endsection
