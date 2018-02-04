@@ -11,84 +11,107 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h3>Grafik Penghasilan Laba 7 Bulan Terakhir</h3>
-                            <canvas id="myChart" height="200"></canvas>
-                        </div>
-                        <div class="col-md-6">
-                            <h3>Lima Hari Terakhir Penjualan Dan Pembelian</h3>
-                            <br>
-                            <table class="table table-bordered table-responsive table-striped" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Total Penjualan</th>
-                                        <th>Total Pembelian</th>
-                                        <th>Laba</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($data as $i => $item)
-                                    <tr>
-                                        <td>
-                                            {{$item->day}} {{$months[$item->month]}} {{$item->year}}
-                                        </td>
-                                        <td>
-                                            @if($item->total_sale == null)
-                                                0
-                                            @else
-                                                {{to_rp($item->total_sale)}}
-                                            @endif
-                                            
-                                        </td>
-                                        <td>
-                                            @if($item->total_purchase == null)
-                                                0
-                                            @else
-                                                {{to_rp($item->total_purchase)}}
-                                            @endif
-                                        </td>
-                                        <td>    
-                                            @if($item->total_sale == null)
-                                                <p style="color:red">
-                                                    {{to_rp(0 - $item->total_purchase)}}
-                                                <p>
-                                            @elseif($item->total_purchase == null)
-                                                <p style="color:green">
-                                                    {{to_rp($item->total_sale - 0)}}
-                                                </p>
-                                            @else
-                                                @if($item->laba >= 0)
-                                                    <p style="color: green">
-                                                        {{to_rp($item->laba)}}
-                                                    </p>
+                    @if(Auth::user()->role == 1)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h3>Grafik Penghasilan Laba 7 Bulan Terakhir</h3>
+                                <canvas id="myChart" height="200"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>Lima Hari Terakhir Penjualan Dan Pembelian</h3>
+                                <br>
+                                <table class="table table-bordered table-responsive table-striped" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Total Penjualan</th>
+                                            <th>Total Pembelian</th>
+                                            <th>Laba</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($data as $i => $item)
+                                        <tr>
+                                            <td>
+                                                {{$item->day}} {{$months[$item->month]}} {{$item->year}}
+                                            </td>
+                                            <td>
+                                                @if($item->total_sale == null)
+                                                    0
                                                 @else
-                                                    <p style="color: red">
-                                                        {{to_rp($item->laba)}}
-                                                    </p>
+                                                    {{to_rp($item->total_sale)}}
                                                 @endif
                                                 
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <p>Total Penjualan Hari Ini : 
-                                <b>{{to_rp($today_data['sale'])}}</b>
-                            </p>
-                            <p>Total Pembelian Hari Ini : 
-                               <b>{{to_rp($today_data['purchase'])}}</b>
-                            </p>
-                            <p>Laba Hari Ini : <b>{{to_rp($today_data['sale'] - $today_data['purchase'])}}</b></p>
+                                            </td>
+                                            <td>
+                                                @if($item->total_purchase == null)
+                                                    0
+                                                @else
+                                                    {{to_rp($item->total_purchase)}}
+                                                @endif
+                                            </td>
+                                            <td>    
+                                                @if($item->total_sale == null)
+                                                    <p style="color:red">
+                                                        {{to_rp(0 - $item->total_purchase)}}
+                                                    <p>
+                                                @elseif($item->total_purchase == null)
+                                                    <p style="color:green">
+                                                        {{to_rp($item->total_sale - 0)}}
+                                                    </p>
+                                                @else
+                                                    @if($item->laba >= 0)
+                                                        <p style="color: green">
+                                                            {{to_rp($item->laba)}}
+                                                        </p>
+                                                    @else
+                                                        <p style="color: red">
+                                                            {{to_rp($item->laba)}}
+                                                        </p>
+                                                    @endif
+                                                    
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <p>Total Penjualan Hari Ini : 
+                                    <b>{{to_rp($today_data['sale'])}}</b>
+                                </p>
+                                <p>Total Pembelian Hari Ini : 
+                                   <b>{{to_rp($today_data['purchase'])}}</b>
+                                </p>
+                                <p>Laba Hari Ini : <b>{{to_rp($today_data['sale'] - $today_data['purchase'])}}</b></p>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Prosses Login Berhasil</h4>
+                                <br>
+                                <br>
+                                <h1 id="time-now" style="font-size: 130px; font-family:digital-clock;"></h1>
+                                <script>
+                                    var myVar = setInterval(myTimer ,1000);
+                                    function myTimer() {
+                                        var d = new Date();
+                                        document.getElementById("time-now").innerHTML = d.toLocaleTimeString();
+                                    }
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="calender">
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>  
             </div>    
         </section>
 @endsection
 @section('script')
+@if(Auth::user()->role == 1)
 <script type="text/javascript">
 reportData();
 
@@ -150,5 +173,11 @@ function displayChart(data) {
     });
 }
 </script>
+@else
+<script type="text/javascript">
+    var calender = new Calender();
+    calender.draw();
+</script>
+@endif
 @endsection
 

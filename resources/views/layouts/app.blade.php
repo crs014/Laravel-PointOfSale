@@ -17,6 +17,16 @@
     <link rel="stylesheet" href="{{ asset('public/dist/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/dist/css/skins/_all-skins.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/DataTables/media/css/dataTables.bootstrap.min.css') }}">
+    @if(Auth::user()->role != 1)
+    <link rel="stylesheet" href="{{ asset('public/calender/style.css') }}">
+    <style type="text/css">
+    @font-face {
+        font-family: digital-clock;
+        src: url(/public/fonts/digital-7.ttf);
+    }
+    </style>
+    <script type="text/javascript" src="{{ asset('public/calender/script.js') }}" ></script>
+    @endif
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -79,20 +89,16 @@
                             <ul class="dropdown-menu">
                                 <li class="user-header">
                                     <p>
-                                        {{ Auth::user()->name }}
-                                        <small>Member since Nov. 2012</small>
+                                        {{ Auth::user()->name }}                                        
                                     </p>
                                 </li>
                                 <li class="user-body">
                                     <div class="row">
-                                        <div class="col-xs-4 text-center"><a href="#">Followers</a></div>
-                                        <div class="col-xs-4 text-center"><a href="#">Sales</a></div>
-                                        <div class="col-xs-4 text-center"><a href="#">Friends</a></div>
                                     </div>
                                 </li>
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="{{ route('profile.index') }}" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">
@@ -118,13 +124,20 @@
                         &nbsp;
                     @else
                         <li class="header">MAIN NAVIGATION</li>
-                        <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                        <li><a href="{{ route('categories.index') }}"><i class="fa fa-cubes"></i> <span>Kategori</span></a></li>
-                        <li><a href="{{ route('products.index') }}"><i class="fa fa-cube"></i> <span>Produk</span></a></li>
-                        <li><a href="{{ route('purchases.index') }}"><i class="fa fa-upload"></i> <span>Pembelian</span></a></li>
-                        <li><a href="{{ route('sales.index') }}"><i class="fa fa-download"></i> <span>Penjualan</span></a></li>
-                        <li><a href="{{ route('payment.index') }}"><i class="fa fa-credit-card"></i> <span>History Pembayaran</span></a></li>
-                        <li><a href="{{ route('report.index') }}"><i class="fa fa-book"></i> <span>Laporan</span></a></li>
+                        @if(Auth::user()->role == 1)
+                            <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                            <li><a href="{{ route('categories.index') }}"><i class="fa fa-cubes"></i> <span>Kategori</span></a></li>
+                            <li><a href="{{ route('products.index') }}"><i class="fa fa-cube"></i> <span>Produk</span></a></li>
+                            <li><a href="{{ route('purchases.index') }}"><i class="fa fa-upload"></i> <span>Pembelian</span></a></li>
+                            <li><a href="{{ route('sales.index') }}"><i class="fa fa-download"></i> <span>Penjualan</span></a></li>
+                            <li><a href="{{ route('payment.index') }}"><i class="fa fa-credit-card"></i> <span>History Pembayaran</span></a></li>
+                            <li><a href="{{ route('report.index') }}"><i class="fa fa-book"></i> <span>Laporan</span></a></li>
+                            <li><a href="{{ route('employee.index') }}"><i class="fa fa-user"></i> <span>Karyawan</span></a></li>
+                        @else
+                            <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                            <li><a href="{{ route('products.index') }}"><i class="fa fa-cube"></i> <span>Produk</span></a></li>
+                            <li><a href="{{ route('sales.index') }}"><i class="fa fa-download"></i> <span>Penjualan</span></a></li>
+                        @endif
                     @endif
                 </ul>
             </section>

@@ -1,0 +1,25 @@
+.calender{
+    background-color:#ddd;
+    color : #777;
+    font-family: sans-serif;
+    width: 100%;
+}
+
+.calender tr td{
+    padding: 10px;
+
+}
+
+.today{
+    color : white;
+    background-color: #555;
+}
+
+.label-calender {
+    color : white;
+    background-color: blue;
+}
+
+.sunday {
+    color : red;
+}

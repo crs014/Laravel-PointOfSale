@@ -9,7 +9,9 @@
     <section class="content"><!-- /.row -->
         <div class="box box-primary">
             <div class="box-header">
-                <a class="btn btn-success" onclick="addProduct()"><i class="fa fa-plus-circle"></i> Tambah</a>
+                @if(Auth::user()->role == 1)
+                    <a class="btn btn-success" onclick="addProduct()"><i class="fa fa-plus-circle"></i> Tambah</a>
+                @endif
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-responsive table-striped" id="table-product" width="100%">
@@ -22,7 +24,9 @@
                             <th>Stock Keluar</th>
                             <th>Sisa Stock</th>
                             <th>Tanggal Waktu</th>
-                            <th>Action</th>
+                            @if(Auth::user()->role == 1)
+                                <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +91,7 @@ $(function(){
                     {
                         data : "date_time"
                     },
+                    @if(Auth::user()->role == 1)
                     {
                         data : 'id',
                         searchable : false,
@@ -97,6 +102,7 @@ $(function(){
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
                         }
                     }
+                    @endif
                     
                 ],
                 columnDefs : [

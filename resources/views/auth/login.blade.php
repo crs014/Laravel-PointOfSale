@@ -9,7 +9,7 @@
         <form action="{{ route('login') }}" method="POST">
             {{ csrf_field() }}
             <div class="form-group has-feedback">
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 @if ($errors->has('email'))
                 <span class="help-block">

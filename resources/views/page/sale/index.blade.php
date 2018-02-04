@@ -3,7 +3,7 @@
 @section('content')
  <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Pembelian</h1>
+        <h1>Penjualan</h1>
     </section>
     <!-- Main content -->
     <section class="content"><!-- /.row -->
@@ -89,9 +89,14 @@ $(function(){
                         searchable : false,
                         sortable : false,
                         render : function(id, type, full, meta) {
-                            return "<a href='/sales/"+ id +"' class='btn btn-info'><i class='fa fa-info-circle'>"+
+                            @if(Auth::user()->role == 1)
+                                 return "<a href='/sales/"+ id +"' class='btn btn-info'><i class='fa fa-info-circle'>"+
                                     "</i> Detail</a> "+
                                     "<a onclick='deleteData(" + id + ")' class='btn btn-danger'><i class='fa fa-trash'></i> Hapus</a>";
+                            @else
+                                return  "<a href='/sales/"+ id +"' class='btn btn-info'><i class='fa fa-info-circle'>"+
+                                    "</i> Detail</a> ";
+                            @endif
                         }
                     }
                 ],
